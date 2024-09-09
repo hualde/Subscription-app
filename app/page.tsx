@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Header from '../components/Header'
 import SubscriptionStatus from '../components/SubscriptionStatus'
 import SubscriptionButton from '../components/SubscriptionButton'
@@ -11,6 +12,11 @@ export default function Home() {
         <p className="mb-4">This is a simple subscription app using Next.js, Auth0, and Stripe.</p>
         <SubscriptionStatus />
         <SubscriptionButton />
+        <div className="mt-4">
+          <Link href="/protected" className="text-blue-600 hover:text-blue-800">
+            Access Protected Content
+          </Link>
+        </div>
       </main>
     </div>
   )
