@@ -7,7 +7,6 @@ export default function SubscriptionStatus() {
   const { user, isLoading: userLoading } = useUser()
   const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (user && !userLoading) {
@@ -27,7 +26,6 @@ export default function SubscriptionStatus() {
       setIsSubscribed(data.isSubscribed)
     } catch (error) {
       console.error('Error checking subscription status:', error)
-      setError('Failed to check subscription status')
     }
     setIsLoading(false)
   }
@@ -36,20 +34,16 @@ export default function SubscriptionStatus() {
     return <div>Checking subscription status...</div>
   }
 
-  if (error) {
-    return <div className="text-red-500">{error}</div>
-  }
-
   if (!user) {
-    return <div>Please log in to see subscription status.</div>
+    return null
   }
 
   return (
-    <div>
+    <div className="mt-4">
       {isSubscribed ? (
-        <p className="text-green-500">You are currently subscribed.</p>
+        <p className="text-green-500 font-bold">You are subscribed.</p>
       ) : (
-        <p className="text-red-500">You are not currently subscribed.</p>
+        <p className="text-red-500 font-bold">You are not subscribed.</p>
       )}
     </div>
   )
