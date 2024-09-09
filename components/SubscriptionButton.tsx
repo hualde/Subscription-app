@@ -8,10 +8,10 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 
 export default function SubscriptionButton() {
   const { user } = useUser()
-  const [isSubscribing, setIsSubscribing] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubscribe = async () => {
-    setIsSubscribing(true)
+    setIsLoading(true)
     try {
       const response = await fetch('/api/create-subscription', {
         method: 'POST',
@@ -20,28 +20,31 @@ export default function SubscriptionButton() {
         },
       })
       const data = await response.json()
-      const stripe = await stripePromise
-      if (stripe) {
-        const result = await stripe.redirectToCheckout({
+      
+      if (data.sessionId) {
+        const stripe = await stripePromise
+        const { error } = await stripe!.redirectToCheckout({
           sessionId: data.sessionId,
         })
-        if (result.error) {
-          console.error(result.error)
+        if (error) {
+          console.error('Stripe redirect error:', error)
         }
+      } else {
+        console.error('Failed to create Stripe session')
       }
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Subscription error:', error)
     }
-    setIsSubscribing(false)
+    setIsLoading(false)
   }
 
   return (
     <button
       onClick={handleSubscribe}
-      disabled={isSubscribing || !user}
+      disabled={isLoading || !user}
       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
     >
-      {isSubscribing ? 'Processing...' : 'Subscribe Now'}
+      {isLoading ? 'Processing...' : 'Subscribe Now'}
     </button>
   )
 }
