@@ -1,8 +1,10 @@
+'use client'
+
 import Link from 'next/link'
 import { useUser } from '@auth0/nextjs-auth0/client'
 
 export default function Header() {
-  const { user, error, isLoading } = useUser()
+  const { user, isLoading } = useUser()
 
   return (
     <header className="flex justify-between items-center p-4 bg-gray-100">

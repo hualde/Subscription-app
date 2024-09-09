@@ -1,5 +1,6 @@
+import { Suspense } from 'react'
 import Header from '../components/Header'
-import SubscriptionButton from '../components/SubscriptionButton'
+import UserProfile from '../components/UserProfile'
 
 export default function Home() {
   return (
@@ -8,7 +9,9 @@ export default function Home() {
       <main className="flex-grow container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">Welcome to our Subscription App</h1>
         <p className="mb-4">This is a simple subscription app using Next.js, Auth0, and Stripe.</p>
-        <SubscriptionButton />
+        <Suspense fallback={<div>Loading...</div>}>
+          <UserProfile />
+        </Suspense>
       </main>
     </div>
   )
