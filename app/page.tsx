@@ -1,6 +1,6 @@
 import Header from '../components/Header'
-import SubscriptionButton from '../components/SubscriptionButton'
 import SubscriptionStatus from '../components/SubscriptionStatus'
+import SubscriptionButton from '../components/SubscriptionButton'
 
 export default function Home() {
   return (

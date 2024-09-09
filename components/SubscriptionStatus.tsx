@@ -1,17 +1,47 @@
-import Header from '../components/Header'
-import SubscriptionButton from '../components/SubscriptionButton'
-import SubscriptionStatus from '../components/SubscriptionStatus'
+'use client'
 
-export default function Home() {
+import { useEffect, useState } from 'react'
+import { useUser } from '@auth0/nextjs-auth0/client'
+
+export default function SubscriptionStatus() {
+  const { user, isLoading: userLoading } = useUser()
+  const [isSubscribed, setIsSubscribed] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    if (user && !userLoading) {
+      checkSubscriptionStatus()
+    } else if (!userLoading) {
+      setIsLoading(false)
+    }
+  }, [user, userLoading])
+
+  const checkSubscriptionStatus = async () => {
+    try {
+      const response = await fetch('/api/check-subscription')
+      const data = await response.json()
+      setIsSubscribed(data.isSubscribed)
+    } catch (error) {
+      console.error('Error checking subscription status:', error)
+    }
+    setIsLoading(false)
+  }
+
+  if (isLoading || userLoading) {
+    return <div>Checking subscription status...</div>
+  }
+
+  if (!user) {
+    return <div>Please log in to see subscription status.</div>
+  }
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4">Welcome to our Subscription App</h1>
-        <p className="mb-4">This is a simple subscription app using Next.js, Auth0, and Stripe.</p>
-        <SubscriptionStatus />
-        <SubscriptionButton />
-      </main>
+    <div>
+      {isSubscribed ? (
+        <p className="text-green-500">You are currently subscribed.</p>
+      ) : (
+        <p className="text-red-500">You are not currently subscribed.</p>
+      )}
     </div>
   )
 }
