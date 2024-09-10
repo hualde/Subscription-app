@@ -23,15 +23,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     })
 
     if (customer.data.length === 0) {
-      return res.status(200).json({ isSubscribed: false })
+      return res.status(200).json({ isSubscribed: false, customerId: null })
     }
 
+    const customerId = customer.data[0].id
+
     const subscriptions = await stripe.subscriptions.list({
-      customer: customer.data[0].id,
+      customer: customerId,
       status: 'active',
     })
 
-    res.status(200).json({ isSubscribed: subscriptions.data.length > 0 })
+    res.status(200).json({ 
+      isSubscribed: subscriptions.data.length > 0,
+      customerId: customerId
+    })
   } catch (error) {
     console.error('Error checking subscription status:', error)
     res.status(500).json({ error: 'Error checking subscription status' })
