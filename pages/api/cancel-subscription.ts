@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Aquí deberías obtener el ID de suscripción de Stripe del usuario
+    // Aquí deberías obtener el ID de cliente de Stripe del usuario
     // Esto podría estar almacenado en tu base de datos
     const stripeCustomerId = 'customer_id_from_your_database'
 
@@ -28,9 +28,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (subscriptions.data.length > 0) {
       const subscription = subscriptions.data[0]
-      await stripe.subscriptions.del(subscription.id)
+      await stripe.subscriptions.cancel(subscription.id)
 
       // Aquí deberías actualizar el estado de suscripción en tu base de datos
+      // Por ejemplo:
+      // await updateUserSubscriptionStatus(session.user.sub, false)
 
       res.json({ success: true, message: 'Subscription cancelled successfully' })
     } else {
