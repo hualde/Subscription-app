@@ -17,29 +17,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Aquí deberías obtener el ID de cliente de Stripe del usuario
-    // Esto podría estar almacenado en tu base de datos
-    const stripeCustomerId = 'customer_id_from_your_database'
+    const customer = await stripe.customers.list({
+      email: session.user.email,
+      limit: 1,
+    })
+
+    if (customer.data.length === 0) {
+      return res.status(404).json({ error: 'No customer found' })
+    }
+
+    const customerId = customer.data[0].id
 
     const subscriptions = await stripe.subscriptions.list({
-      customer: stripeCustomerId,
+      customer: customerId,
       status: 'active',
     })
 
-    if (subscriptions.data.length > 0) {
-      const subscription = subscriptions.data[0]
-      await stripe.subscriptions.cancel(subscription.id)
-
-      // Aquí deberías actualizar el estado de suscripción en tu base de datos
-      // Por ejemplo:
-      // await updateUserSubscriptionStatus(session.user.sub, false)
-
-      res.json({ success: true, message: 'Subscription cancelled successfully' })
-    } else {
-      res.status(404).json({ success: false, message: 'No active subscription found' })
+    if (subscriptions.data.length === 0) {
+      return res.status(404).json({ error: 'No active subscription found' })
     }
+
+    const subscription = subscriptions.data[0]
+    await stripe.subscriptions.cancel(subscription.id)
+
+    res.status(200).json({ message: 'Subscription cancelled successfully' })
   } catch (error) {
     console.error('Error cancelling subscription:', error)
-    res.status(500).json({ success: false, message: 'Error cancelling subscription' })
+    res.status(500).json({ error: 'Error cancelling subscription' })
   }
 }
