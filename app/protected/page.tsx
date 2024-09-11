@@ -36,12 +36,6 @@ export default function ProtectedPage() {
     <div>
       <h1 className="text-2xl font-bold mb-4">Protected Content</h1>
       <p>This is a protected page only accessible to subscribed users.</p>
-      <button
-        onClick={() => router.push('/unsubscribe')}
-        className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Unsubscribe
-      </button>
     </div>
   )
 }
