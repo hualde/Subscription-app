@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { useUser } from '@auth0/nextjs-auth0/client'
+import Link from 'next/link'
 
 export default function SubscriptionStatus() {
   const { user, isLoading: userLoading } = useUser()
   const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isUnsubscribing, setIsUnsubscribing] = useState(false)
-  const [unsubscribeMessage, setUnsubscribeMessage] = useState('')
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     if (user && !userLoading) {
@@ -28,6 +29,7 @@ export default function SubscriptionStatus() {
       setIsSubscribed(data.isSubscribed)
     } catch (error) {
       console.error('Error checking subscription status:', error)
+      setMessage('Error checking subscription status. Please refresh the page.')
     }
     setIsLoading(false)
   }
@@ -36,22 +38,20 @@ export default function SubscriptionStatus() {
     try {
       setIsUnsubscribing(true)
       const response = await fetch('/api/cancel-subscription', { method: 'POST' })
-      if (!response.ok) {
-        throw new Error('Failed to cancel subscription')
-      }
       const data = await response.json()
-      if (data.success) {
+      
+      if (response.ok && data.success) {
         setIsSubscribed(false)
-        setUnsubscribeMessage('Subscription cancelled successfully. Changes will be reflected soon.')
-        setTimeout(() => setUnsubscribeMessage(''), 5000) // Clear message after 5 seconds
+        setMessage('Subscription cancelled successfully.')
       } else {
-        throw new Error('Cancellation was not successful')
+        throw new Error(data.error || 'Failed to cancel subscription')
       }
     } catch (error) {
       console.error('Error cancelling subscription:', error)
-      setUnsubscribeMessage('An error occurred while cancelling your subscription. Please try again.')
+      setMessage('An error occurred while cancelling your subscription. Please try again.')
     } finally {
       setIsUnsubscribing(false)
+      setTimeout(() => setMessage(''), 5000) // Clear message after 5 seconds
     }
   }
 
@@ -81,13 +81,25 @@ export default function SubscriptionStatus() {
           </button>
         </div>
       ) : (
-        <p className="text-red-500 font-bold">You are not subscribed.</p>
-      )}
-      {unsubscribeMessage && (
-        <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
-          <p>{unsubscribeMessage}</p>
+        <div>
+          <p className="text-red-500 font-bold mb-2">You are not subscribed.</p>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+          >
+            Subscribe Now
+          </button>
         </div>
       )}
+      {message && (
+        <div className={`border-l-4 p-4 ${isSubscribed ? 'bg-blue-100 border-blue-500 text-blue-700' : 'bg-red-100 border-red-500 text-red-700'}`} role="alert">
+          <p>{message}</p>
+        </div>
+      )}
+      <div className="mt-4">
+        <Link href="/protected" className="text-blue-600 hover:text-blue-800">
+          Access Protected Content
+        </Link>
+      </div>
     </div>
   )
 }
