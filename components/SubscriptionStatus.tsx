@@ -33,24 +33,12 @@ export default function SubscriptionStatus() {
   const handleUnsubscribe = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch('/api/cancel-subscription', { method: 'POST' })
-      if (!response.ok) {
-        throw new Error('Failed to cancel subscription')
-      }
-      const data = await response.json()
-      if (data.success) {
-        setIsSubscribed(false)
-        // Recargar la página después de cancelar la suscripción
-        window.location.reload()
-      } else {
-        // Opcional: Mostrar un mensaje de error al usuario
-        console.error('Subscription cancellation was not successful')
-      }
+      await fetch('/api/cancel-subscription', { method: 'POST' })
     } catch (error) {
       console.error('Error cancelling subscription:', error)
-      // Opcional: Mostrar un mensaje de error al usuario
     } finally {
-      setIsLoading(false)
+      // Recargar la página inmediatamente después de la acción de cancelación
+      window.location.reload()
     }
   }
 
