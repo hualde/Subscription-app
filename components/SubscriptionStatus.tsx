@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useUser } from '@auth0/nextjs-auth0/client'
-import { Button } from "@/components/ui/button"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export default function SubscriptionStatus() {
   const { user, isLoading: userLoading } = useUser()
@@ -58,7 +56,7 @@ export default function SubscriptionStatus() {
   }
 
   if (isLoading || userLoading) {
-    return <div>Checking subscription status...</div>
+    return <div className="text-center py-4">Checking subscription status...</div>
   }
 
   if (!user) {
@@ -70,21 +68,25 @@ export default function SubscriptionStatus() {
       {isSubscribed ? (
         <div>
           <p className="text-green-500 font-bold mb-2">You are subscribed.</p>
-          <Button
+          <button
             onClick={handleUnsubscribe}
             disabled={isUnsubscribing}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+            className={`
+              bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded
+              transition-colors duration-200
+              ${isUnsubscribing ? 'opacity-50 cursor-not-allowed' : ''}
+            `}
           >
             {isUnsubscribing ? 'Cancelling...' : 'Unsubscribe'}
-          </Button>
+          </button>
         </div>
       ) : (
         <p className="text-red-500 font-bold">You are not subscribed.</p>
       )}
       {unsubscribeMessage && (
-        <Alert>
-          <AlertDescription>{unsubscribeMessage}</AlertDescription>
-        </Alert>
+        <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+          <p>{unsubscribeMessage}</p>
+        </div>
       )}
     </div>
   )
