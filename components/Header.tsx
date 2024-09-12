@@ -4,11 +4,13 @@ import Link from 'next/link'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useState, useEffect } from 'react'
 import { Search, User, LogOut } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function Header() {
   const { user, isLoading } = useUser()
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     if (user) {
@@ -38,14 +40,13 @@ export default function Header() {
       const response = await fetch('/api/cancel-subscription', { method: 'POST' })
       if (response.ok) {
         setIsSubscribed(false)
-        // Optionally, you can redirect the user or show a success message
+        setShowConfirmation(false)
+        router.push('/subscribe')
       } else {
         throw new Error('Failed to cancel subscription')
       }
     } catch (error) {
       console.error('Error cancelling subscription:', error)
-    } finally {
-      setShowConfirmation(false)
     }
   }
 
