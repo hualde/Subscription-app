@@ -56,10 +56,17 @@ export default function Header() {
 
   return (
     <header className="bg-white shadow-md w-full">
-      <div className="px-4 py-3 flex flex-wrap items-center justify-between">
-        <Link href="/" className="text-2xl font-bold text-orange-500">
-          Subscription App
-        </Link>
+      <div className="px-4 py-3 flex flex-col sm:flex-row items-center justify-between">
+        <div className="flex items-center justify-between w-full sm:w-auto">
+          <Link href="/" className="text-2xl font-bold text-orange-500">
+            Subscription App
+          </Link>
+          {!isLoading && user && (
+            <Link href="/api/auth/logout" className="sm:hidden text-gray-600 hover:text-orange-500 transition-colors">
+              <LogOut size={20} />
+            </Link>
+          )}
+        </div>
         <div className="flex items-center space-x-4 mt-2 sm:mt-0">
           <div className="relative hidden md:block">
             <input
@@ -72,7 +79,7 @@ export default function Header() {
           {isLoading ? (
             <div className="text-gray-600">Loading...</div>
           ) : user ? (
-            <div className="flex items-center space-x-4 flex-wrap justify-end">
+            <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <User className="text-gray-600" size={20} />
                 <span className="text-gray-800 font-medium">{user.email}</span>
@@ -85,7 +92,7 @@ export default function Header() {
                   Unsubscribe
                 </button>
               )}
-              <Link href="/api/auth/logout" className="text-gray-600 hover:text-orange-500 transition-colors">
+              <Link href="/api/auth/logout" className="hidden sm:inline-block text-gray-600 hover:text-orange-500 transition-colors">
                 <LogOut size={20} />
               </Link>
             </div>
