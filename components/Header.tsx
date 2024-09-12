@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { useState, useEffect } from 'react'
+import { Search, User, LogOut } from 'lucide-react'
 
 export default function Header() {
   const { user, isLoading } = useUser()
@@ -37,7 +38,7 @@ export default function Header() {
       const response = await fetch('/api/cancel-subscription', { method: 'POST' })
       if (response.ok) {
         setIsSubscribed(false)
-        // Opcionalmente, puedes redirigir al usuario o mostrar un mensaje de éxito
+        // Optionally, you can redirect the user or show a success message
       } else {
         throw new Error('Failed to cancel subscription')
       }
@@ -54,53 +55,67 @@ export default function Header() {
 
   return (
     <header className="bg-white shadow-md">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold text-black">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <Link href="/" className="text-2xl font-bold text-orange-500">
           Subscription App
         </Link>
-        <nav>
+        <div className="flex items-center space-x-4">
+          <div className="relative hidden md:block">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          </div>
           {isLoading ? (
-            <div className="text-black">Loading...</div>
+            <div className="text-gray-600">Loading...</div>
           ) : user ? (
             <div className="flex items-center space-x-4">
-              <span className="text-black">{user.email}</span>
+              <div className="flex items-center space-x-2">
+                <User className="text-gray-600" size={20} />
+                <span className="text-gray-800 font-medium">{user.email}</span>
+              </div>
               {isSubscribed && (
                 <button
                   onClick={handleUnsubscribeClick}
-                  className="text-red-600 hover:text-red-800 font-medium"
+                  className="text-orange-600 hover:text-orange-800 font-medium transition-colors"
                 >
                   Unsubscribe
                 </button>
               )}
-              <Link href="/api/auth/logout" className="text-blue-600 hover:text-blue-800 font-medium">
-                Log Out
+              <Link href="/api/auth/logout" className="text-gray-600 hover:text-orange-500 transition-colors">
+                <LogOut size={20} />
               </Link>
             </div>
           ) : (
-            <Link href="/api/auth/login" className="text-blue-600 hover:text-blue-800 font-medium">
+            <Link
+              href="/api/auth/login"
+              className="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-full transition-colors"
+            >
               Log In
             </Link>
           )}
-        </nav>
+        </div>
       </div>
 
       {showConfirmation && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-xl">
-            <h2 className="text-xl font-bold mb-4">Confirm Unsubscribe</h2>
-            <p className="mb-4">Are you sure you want to cancel your subscription?</p>
-            <div className="flex justify-end space-x-2">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">Confirm Unsubscribe</h2>
+            <p className="mb-6 text-gray-600">Are you sure you want to cancel your subscription?</p>
+            <div className="flex justify-end space-x-3">
               <button
                 onClick={handleCancelUnsubscribe}
-                className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-full transition-colors"
               >
-                No, keep my subscription
+                Keep Subscription
               </button>
               <button
                 onClick={handleConfirmUnsubscribe}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full transition-colors"
               >
-                Yes, unsubscribe
+                Unsubscribe
               </button>
             </div>
           </div>
