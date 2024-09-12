@@ -55,12 +55,12 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white shadow-md">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+    <header className="bg-white shadow-md w-full">
+      <div className="px-4 py-3 flex flex-wrap items-center justify-between">
         <Link href="/" className="text-2xl font-bold text-orange-500">
           Subscription App
         </Link>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 mt-2 sm:mt-0">
           <div className="relative hidden md:block">
             <input
               type="text"
@@ -72,7 +72,7 @@ export default function Header() {
           {isLoading ? (
             <div className="text-gray-600">Loading...</div>
           ) : user ? (
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 flex-wrap justify-end">
               <div className="flex items-center space-x-2">
                 <User className="text-gray-600" size={20} />
                 <span className="text-gray-800 font-medium">{user.email}</span>
@@ -102,7 +102,7 @@ export default function Header() {
 
       {showConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Confirm Unsubscribe</h2>
             <p className="mb-6 text-gray-600">Are you sure you want to cancel your subscription?</p>
             <div className="flex justify-end space-x-3">
