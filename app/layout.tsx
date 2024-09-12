@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <UserProvider>
-        <body className={`${inter.className} bg-white min-h-screen flex flex-col`}>
+        <body className={`${inter.className} bg-white min-h-screen flex flex-col text-gray-800`}>
           <Header />
           <main className="flex-grow container mx-auto px-4 py-8">
             {children}

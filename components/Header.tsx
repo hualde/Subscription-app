@@ -62,7 +62,7 @@ export default function Header() {
             Subscription App
           </Link>
           {!isLoading && user && (
-            <Link href="/api/auth/logout" className="sm:hidden text-gray-600 hover:text-orange-500 transition-colors">
+            <Link href="/api/auth/logout" className="sm:hidden text-gray-700 hover:text-orange-500 transition-colors">
               <LogOut size={20} />
             </Link>
           )}
@@ -77,11 +77,11 @@ export default function Header() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
           </div>
           {isLoading ? (
-            <div className="text-gray-600">Loading...</div>
+            <div className="text-gray-700">Loading...</div>
           ) : user ? (
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <User className="text-gray-600" size={20} />
+                <User className="text-gray-700" size={20} />
                 <span className="text-gray-800 font-medium">{user.email}</span>
               </div>
               {isSubscribed && (
@@ -92,7 +92,7 @@ export default function Header() {
                   Unsubscribe
                 </button>
               )}
-              <Link href="/api/auth/logout" className="hidden sm:inline-block text-gray-600 hover:text-orange-500 transition-colors">
+              <Link href="/api/auth/logout" className="hidden sm:inline-block text-gray-700 hover:text-orange-500 transition-colors">
                 <LogOut size={20} />
               </Link>
             </div>
@@ -111,7 +111,7 @@ export default function Header() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">Confirm Unsubscribe</h2>
-            <p className="mb-6 text-gray-600">Are you sure you want to cancel your subscription?</p>
+            <p className="mb-6 text-gray-700">Are you sure you want to cancel your subscription?</p>
             <div className="flex justify-end space-x-3">
               <button
                 onClick={handleCancelUnsubscribe}

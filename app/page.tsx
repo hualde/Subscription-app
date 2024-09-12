@@ -37,11 +37,11 @@ export default function Home() {
   )
 
   return (
-    <div className="bg-gradient-to-r from-orange-100 to-yellow-100 min-h-screen">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-5xl font-bold mb-6 text-gray-800">Welcome to our Subscription App</h1>
-          <p className="text-xl mb-8 text-gray-600">
+          <h1 className="text-5xl font-bold mb-6 text-gray-900">Welcome to our Subscription App</h1>
+          <p className="text-xl mb-8 text-gray-700">
             Discover amazing content and unlock premium features with our subscription service.
           </p>
           {!user && (
@@ -56,9 +56,9 @@ export default function Home() {
         </div>
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           {['Premium Content', 'Exclusive Features', 'Priority Support'].map((feature, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md p-6 transform transition duration-500 hover:scale-105">
+            <div key={index} className="bg-gray-50 rounded-lg shadow-md p-6 transform transition duration-500 hover:scale-105">
               <h2 className="text-2xl font-semibold mb-4 text-gray-800">{feature}</h2>
-              <p className="text-gray-600">
+              <p className="text-gray-700">
                 Enjoy our {feature.toLowerCase()} with a premium subscription. Unlock a world of possibilities and enhance your experience.
               </p>
             </div>
