@@ -33,8 +33,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       status: 'active',
     })
 
+    const isSubscribed = subscriptions.data.length > 0
+
+    // Log the subscription check for auditing purposes
+    console.log(`Subscription check for user ${session.user.email}: ${isSubscribed ? 'Active' : 'Inactive'}`)
+
     res.status(200).json({ 
-      isSubscribed: subscriptions.data.length > 0,
+      isSubscribed: isSubscribed,
       customerId: customerId
     })
   } catch (error) {

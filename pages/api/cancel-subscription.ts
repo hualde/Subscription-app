@@ -40,6 +40,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const subscription = subscriptions.data[0]
     await stripe.subscriptions.cancel(subscription.id)
 
+    // Log the cancellation for auditing purposes
+    console.log(`Subscription ${subscription.id} cancelled for user ${session.user.email}`)
+
     res.status(200).json({ message: 'Subscription cancelled successfully' })
   } catch (error) {
     console.error('Error cancelling subscription:', error)
