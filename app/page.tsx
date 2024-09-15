@@ -5,10 +5,33 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { useLanguage } from '../components/LanguageContext'
+
+const translations = {
+  en: {
+    'app.welcome': 'Welcome to our Subscription App',
+    'app.description': 'Discover amazing content and unlock premium features with our subscription service.',
+    'app.getStarted': 'Get Started',
+    'app.premiumContent': 'Premium Content',
+    'app.exclusiveFeatures': 'Exclusive Features',
+    'app.prioritySupport': 'Priority Support',
+    'app.featureDescription': 'Enjoy our {feature} with a premium subscription. Unlock a world of possibilities and enhance your experience.'
+  },
+  es: {
+    'app.welcome': 'Bienvenido a nuestra App de Suscripción',
+    'app.description': 'Descubre contenido increíble y desbloquea funciones premium con nuestro servicio de suscripción.',
+    'app.getStarted': 'Comenzar',
+    'app.premiumContent': 'Contenido Premium',
+    'app.exclusiveFeatures': 'Funciones Exclusivas',
+    'app.prioritySupport': 'Soporte Prioritario',
+    'app.featureDescription': 'Disfruta de nuestro {feature} con una suscripción premium. Desbloquea un mundo de posibilidades y mejora tu experiencia.'
+  }
+}
 
 export default function Home() {
   const { user, isLoading } = useUser()
   const router = useRouter()
+  const { language } = useLanguage()
 
   useEffect(() => {
     if (!isLoading && user) {
@@ -40,26 +63,26 @@ export default function Home() {
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-5xl font-bold mb-6 text-gray-900">Welcome to our Subscription App</h1>
+          <h1 className="text-5xl font-bold mb-6 text-gray-900">{translations[language]['app.welcome']}</h1>
           <p className="text-xl mb-8 text-gray-700">
-            Discover amazing content and unlock premium features with our subscription service.
+            {translations[language]['app.description']}
           </p>
           {!user && (
             <Link
               href="/api/auth/login"
               className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full text-lg transition-colors"
             >
-              Get Started
+              {translations[language]['app.getStarted']}
               <ArrowRight className="ml-2" size={24} />
             </Link>
           )}
         </div>
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {['Premium Content', 'Exclusive Features', 'Priority Support'].map((feature, index) => (
+          {[translations[language]['app.premiumContent'], translations[language]['app.exclusiveFeatures'], translations[language]['app.prioritySupport']].map((feature, index) => (
             <div key={index} className="bg-gray-50 rounded-lg shadow-md p-6 transform transition duration-500 hover:scale-105">
               <h2 className="text-2xl font-semibold mb-4 text-gray-800">{feature}</h2>
               <p className="text-gray-700">
-                Enjoy our {feature.toLowerCase()} with a premium subscription. Unlock a world of possibilities and enhance your experience.
+                {translations[language]['app.featureDescription'].replace('{feature}', feature.toLowerCase())}
               </p>
             </div>
           ))}
