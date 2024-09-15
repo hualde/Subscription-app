@@ -25,6 +25,15 @@ const translations = {
     'app.exclusiveFeatures': 'Funciones Exclusivas',
     'app.prioritySupport': 'Soporte Prioritario',
     'app.featureDescription': 'Disfruta de nuestro {feature} con una suscripción premium. Desbloquea un mundo de posibilidades y mejora tu experiencia.'
+  },
+  fr: {
+    'app.welcome': 'Bienvenue sur notre Application d\'Abonnement',
+    'app.description': 'Découvrez un contenu incroyable et débloquez des fonctionnalités premium avec notre service d\'abonnement.',
+    'app.getStarted': 'Commencer',
+    'app.premiumContent': 'Contenu Premium',
+    'app.exclusiveFeatures': 'Fonctionnalités Exclusives',
+    'app.prioritySupport': 'Support Prioritaire',
+    'app.featureDescription': 'Profitez de notre {feature} avec un abonnement premium. Débloquez un monde de possibilités et améliorez votre expérience.'
   }
 }
 

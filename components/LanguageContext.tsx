@@ -2,7 +2,7 @@
 
 import React, { createContext, useState, useContext, useEffect } from 'react'
 
-type Language = 'en' | 'es'
+type Language = 'en' | 'es' | 'fr'
 
 interface LanguageContextType {
   language: Language
@@ -20,7 +20,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       setLanguage(storedLanguage)
     } else {
       const browserLanguage = navigator.language.split('-')[0] as Language
-      setLanguage(browserLanguage === 'es' ? 'es' : 'en')
+      setLanguage(['es', 'fr'].includes(browserLanguage) ? browserLanguage : 'en')
     }
   }, [])
 

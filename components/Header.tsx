@@ -27,6 +27,16 @@ const translations = {
     'app.confirmUnsubscribe': '¿Estás seguro de que quieres cancelar tu suscripción?',
     'app.keepSubscription': 'Mantener Suscripción',
     'app.confirmUnsubscribeButton': 'Cancelar Suscripción'
+  },
+  fr: {
+    'app.title': 'Application d\'Abonnement',
+    'app.search': 'Rechercher...',
+    'app.login': 'Se Connecter',
+    'app.logout': 'Se Déconnecter',
+    'app.unsubscribe': 'Se Désabonner',
+    'app.confirmUnsubscribe': 'Êtes-vous sûr de vouloir annuler votre abonnement ?',
+    'app.keepSubscription': 'Garder l\'Abonnement',
+    'app.confirmUnsubscribeButton': 'Se Désabonner'
   }
 }
 
@@ -95,11 +105,12 @@ export default function Header() {
         <div className="flex items-center space-x-4 mt-2 sm:mt-0">
           <select
             value={language}
-            onChange={(e) => setLanguage(e.target.value as 'en' | 'es')}
+            onChange={(e) => setLanguage(e.target.value as 'en' | 'es' | 'fr')}
             className="bg-white border border-gray-300 rounded-md px-2 py-1"
           >
             <option value="en">English</option>
             <option value="es">Español</option>
+            <option value="fr">Français</option>
           </select>
           <div className="relative hidden md:block">
             <input
