@@ -16,11 +16,11 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     const storedLanguage = localStorage.getItem('language') as Language
-    if (storedLanguage) {
+    if (storedLanguage && ['en', 'es', 'fr'].includes(storedLanguage)) {
       setLanguage(storedLanguage)
     } else {
-      const browserLanguage = navigator.language.split('-')[0] as Language
-      setLanguage(['es', 'fr'].includes(browserLanguage) ? browserLanguage : 'en')
+      const browserLanguage = navigator.language.split('-')[0].toLowerCase()
+      setLanguage(['es', 'fr'].includes(browserLanguage) ? browserLanguage as Language : 'en')
     }
   }, [])
 
